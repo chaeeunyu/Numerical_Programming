@@ -1,0 +1,124 @@
+/*----------------------------------------------------------------\
+@ Numerical Programming by Young-Keun Kim - Handong Global University
+
+Author           : Yu Chaeeun
+Created          : 26-03-2018
+Modified         : 14-10-2024
+Language/ver     : C++ in MSVS2019
+
+Description      : myMatrix.h
+----------------------------------------------------------------*/
+
+#ifndef		_MY_MATRIX_H		// use either (#pragma once) or  (#ifndef ...#endif)
+#define		_MY_MATRIX_H
+
+#include <iostream>
+#include <string>
+#include <fstream>
+
+typedef struct { 
+	double** at;
+	int rows, cols;
+}Matrix;
+
+
+// Create Matrix with specified size
+extern	Matrix	createMat(int _rows, int _cols);
+
+// Free a memory allocated matrix
+extern	void	freeMat(Matrix _A);
+
+// Create a matrix from a text file
+extern	Matrix	txt2Mat(std::string _filePath, std::string _fileName);
+
+//// Print matrix
+extern	void	printMat(Matrix _A, const char* _name);
+
+// Matrix addition
+extern	Matrix	addMat(Matrix _A, Matrix _B);
+
+
+// initialization of Matrix elements
+extern	void	initMat(Matrix _A, double _val);
+
+// Create a matrix from 1D-array
+extern Matrix	arr2Mat(double* _1Darray, int _rows, int _cols);  
+
+//////////////////////////////////////////////////////////////////
+/*							Tutorial							*/
+//////////////////////////////////////////////////////////////////
+
+
+// Create matrix of all zeros
+extern	Matrix	zeros(int _rows, int _cols);
+
+// Create matrix of all ones
+extern	Matrix	ones(int _rows, int _cols);
+
+// Create identity matrix
+extern	Matrix	eye(int _rows, int _cols);
+
+
+// Matrix subtraction
+extern	Matrix	subMat(Matrix _A, Matrix _B);
+
+// Multiply  matrix A and matrix B
+extern	Matrix	multMat(Matrix _A, Matrix _B);
+
+// Multiply two vectors to make a norm (= vTv)
+double vTv(Matrix v1, Matrix v2);
+double dotProduct(Matrix v);
+
+// Multiply  matrix A with a scalar k
+extern	Matrix	smultMat(Matrix _A, double _k);
+
+// Create Transpose matrix
+extern	Matrix	transpose(Matrix _A);
+
+// Copy matrix
+extern	Matrix	copyMat(Matrix _A);
+
+
+
+// Gauss Elimination
+void gaussElim(Matrix* A, Matrix* b, Matrix* U, Matrix* d);
+void fwdsub(Matrix* L, Matrix* y, Matrix* Pb);
+void backsub(Matrix* U, Matrix* d, Matrix* x);
+
+void gauss_jordanElim(Matrix* A, Matrix* b, Matrix* U, Matrix* d, Matrix* P);
+void jordan_sub(Matrix* U, Matrix* x, Matrix* d);
+
+void gauss_permut(Matrix* A, Matrix* b, Matrix* U, Matrix* d, Matrix* P);
+
+
+// LU decomposition
+void LUdecomp(Matrix* A, Matrix* L, Matrix* U, Matrix* P);
+void solveLU(Matrix* L, Matrix* U, Matrix* P, Matrix* b, Matrix* x);
+double invMat(Matrix* A, Matrix* Ainv);
+
+
+// Eigenvalue/vector
+void QRdecomp(Matrix U, Matrix* Q, Matrix* R);
+Matrix eigval(Matrix A);
+Matrix eigvec(Matrix A);
+double eig(Matrix A, Matrix* V, Matrix* D); 
+
+
+// Linear regression with matrices
+Matrix planarFitting(Matrix _vecX, Matrix _vecY);
+Matrix highPolyFit(Matrix _vecX, Matrix _vecY, int n);
+
+
+// Gradient Descent
+double maxMat(Matrix A);
+double minMat(Matrix A);
+Matrix normalizeMat(Matrix A);
+Matrix unnormMat(Matrix Z, Matrix X);
+
+
+// Nonlinear System
+Matrix nonlinearSys(Matrix Funcs(Matrix _Z), Matrix Jacob(Matrix _Z), Matrix _Z0, double tol);
+Matrix nonlinearSys2(Matrix Funcs(Matrix _Z), Matrix Jacob(Matrix _Z), Matrix _Z0, double tol);
+
+
+#endif
